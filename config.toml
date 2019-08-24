@@ -36,7 +36,7 @@ enableEmoji = true
     favicon = "favicon.ico"
 
     [params.logo]
-    url = "whale.png"
+    url = "logo.png"
     width = 50
     height = 50
     alt = "Logo"
