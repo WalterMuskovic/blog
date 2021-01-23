@@ -93,4 +93,4 @@ anim <- p +
 animate(anim)
 ```
 
-I think the colour in the static plot does the job of conveying the trajectory of the cells through time and adding animation doesn't add much. But it was good to try out `gganimate` anyway and discover the grammar makes it really easy to add to vanilla ggplots. Now I've finally tried it out I can keep an eye out for future datasets where it might come in handy. Also **first post**!!! :tada: :tada:
+I think the colour in the static plot does the job of conveying the trajectory of the cells through time and adding animation doesn't contribute much. But it was good to try out `gganimate` anyway and discover that the grammar makes it easy to add animation to normal ggplots. Now I've finally tried it out I can keep an eye out for future datasets where it might come in handy. Also **first post**!!! :tada: :tada:
