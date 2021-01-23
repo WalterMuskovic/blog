@@ -1,0 +1,94 @@
+---
+title: Trying out gganimate
+author: Walter Muskovic
+date: '2021-01-23'
+slug: trying-out-gganimate
+categories: []
+tags:
+  - gganimate
+  - ggplot
+  - scRNA-seq
+---
+
+<script src="{{< blogdown/postref >}}index_files/header-attrs/header-attrs.js"></script>
+
+
+<p>I keep putting off trying out the <a href="https://doi.org/10.1101/206052">gganimate R package</a>, but today’s the day. To make it more fun, rather than use the iris dataset as they’ve done in the package vignette, we’ll simulate some single cell RNA-seq data using the excellent <a href="https://doi.org/doi:10.18129/B9.bioc.splatter">Splatter R package</a>.</p>
+<div id="load-r-packages" class="section level2">
+<h2>Load R packages</h2>
+<pre class="r"><code>library(splatter)   # simulate scRNA-seq data
+library(scater)     # use the logNormCounts() function from here
+library(Seurat)     # manipulating the scRNA-seq data
+library(tidyverse)  # data wrangling
+library(gganimate)  # fancy plots</code></pre>
+</div>
+<div id="simulate-data" class="section level2">
+<h2>Simulate data</h2>
+<p>I’ll simulate 400 cells transitioning along a continuous differentiation trajectory with four paths, each cell having an equal probability of belonging to each. I’ve become more familiar with the structure of Seurat objects for handling single cell data, so along the way we’ll convert the <code>SingleCellExperiment</code> object to a <code>Seurat</code> object before identifying variable features and running PCA.</p>
+<pre class="r"><code># Simulate data
+params.groups &lt;- newSplatParams(batchCells = 400,
+                                nGenes = 800)
+sim1 &lt;- splatSimulatePaths(params.groups,
+                           path.nSteps = 10,
+                           group.prob = rep(0.25, 4),
+                           de.prob = 0.5,
+                           de.facLoc = 0.2,
+                           path.from = c(0, 1, 2, 3)) %&gt;%
+  logNormCounts() %&gt;%
+  as.Seurat() %&gt;%
+  FindVariableFeatures() %&gt;%
+  ScaleData() %&gt;%
+  RunPCA()</code></pre>
+<p>Peek at the metadata:</p>
+<pre class="r"><code>head(sim1@meta.data)</code></pre>
+<pre><code>##        Cell  Batch Group ExpLibSize Step sizeFactor
+## Cell1 Cell1 Batch1 Path4   74225.82    2  1.2209645
+## Cell2 Cell2 Batch1 Path3   63802.26    6  1.0352153
+## Cell3 Cell3 Batch1 Path2   76739.30    2  1.2754246
+## Cell4 Cell4 Batch1 Path3   46640.71    8  0.7478661
+## Cell5 Cell5 Batch1 Path3   58112.13    6  0.9680266
+## Cell6 Cell6 Batch1 Path3   57435.94    6  0.9348244</code></pre>
+<p>Splatter approximates a continuous trajectory by simulating a series of steps between groups. We specified four groups and 10 steps per group. Let’s add a new variable to approximate time:</p>
+<pre class="r"><code># Get group info as numeric (integer between 1-4) then multiply by ten
+sim1$Time &lt;- as.numeric(str_remove_all(sim1$Group, &quot;Path&quot;))*10 
+#  Add step info (integer between 1-10)
+sim1$Time &lt;- sim1$Time + sim1$Step 
+# start from zero not ten
+sim1$Time &lt;- sim1$Time - 10 </code></pre>
+</div>
+<div id="static-plot" class="section level2">
+<h2>Static plot</h2>
+<p>Create some static PCA plots highlighting the <code>Time</code> variable we created and the paths and steps.</p>
+<pre class="r"><code># Plot group (paths), steps and our new Time variable using two of Seurat&#39;s built in 
+# plot functions; DimPlot() and Featureplot()
+DimPlot(sim1, group.by = &quot;Group&quot;) </code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/static-plots-1.png" width="672" /></p>
+<pre class="r"><code>FeaturePlot(sim1, &quot;Step&quot;) + scale_color_viridis_c()</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/static-plots-2.png" width="672" /></p>
+<pre class="r"><code>FeaturePlot(sim1, &quot;Time&quot;) + scale_color_viridis_c()</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/static-plots-3.png" width="672" /></p>
+</div>
+<div id="dynamic-plot" class="section level2">
+<h2>Dynamic plot</h2>
+<p>Now we’ll use the <code>Time</code> variable to animate the plot. We use the <code>shadow_mark</code> argument to keep track of the path of the cells so that they don’t just disappear from frame to frame.</p>
+<pre class="r"><code># Pull data for plotting
+plt.data &lt;- cbind(sim1@meta.data,
+                  Embeddings(sim1)[, 1:2])
+
+# Create a static plot
+p &lt;- ggplot(plt.data, aes(x = PC_1, y = PC_2, col = Time)) +
+  geom_point() +
+  scale_colour_viridis_c()
+
+# Add some animation
+anim &lt;- p +
+  transition_states(Time,
+                    transition_length = 2,
+                    state_length = 1) +
+  ggtitle(&#39;Time: {closest_state}&#39;) +
+  shadow_mark(alpha = 0.5, size = 0.7)
+
+animate(anim)</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/animated-plot-1.gif" /><!-- --></p>
+<p>I think the colour in the static plot does the job of conveying the trajectory of the cells through time and adding animation doesn’t add much. But it was good to try out <code>gganimate</code> anyway and discover the grammar makes it really easy to add to vanilla ggplots. Now I’ve finally tried it out I can keep an eye out for future datasets where it might come in handy. Also <strong>first post</strong>!!! :tada: :tada:</p>
+</div>
