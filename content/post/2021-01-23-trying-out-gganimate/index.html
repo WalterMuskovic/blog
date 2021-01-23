@@ -40,8 +40,8 @@ sim1 &lt;- splatSimulatePaths(params.groups,
   ScaleData() %&gt;%
   RunPCA()</code></pre>
 <p>Peek at the metadata:</p>
-<pre class="r"><code>head(sim1@meta.data)</code></pre>
-<pre><code>##        Cell  Batch Group ExpLibSize Step sizeFactor
+<pre class="r"><code>head(sim1@meta.data)
+##        Cell  Batch Group ExpLibSize Step sizeFactor
 ## Cell1 Cell1 Batch1 Path4   74225.82    2  1.2209645
 ## Cell2 Cell2 Batch1 Path3   63802.26    6  1.0352153
 ## Cell3 Cell3 Batch1 Path2   76739.30    2  1.2754246
@@ -62,11 +62,11 @@ sim1$Time &lt;- sim1$Time - 10 </code></pre>
 <pre class="r"><code># Plot group (paths), steps and our new Time variable using two of Seurat&#39;s built in 
 # plot functions; DimPlot() and Featureplot()
 DimPlot(sim1, group.by = &quot;Group&quot;) </code></pre>
-<p><img src="{{< blogdown/postref >}}index_files/figure-html/static-plots-1.png" width="672" /></p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/static-plots-1.png" width="100%" /></p>
 <pre class="r"><code>FeaturePlot(sim1, &quot;Step&quot;) + scale_color_viridis_c()</code></pre>
-<p><img src="{{< blogdown/postref >}}index_files/figure-html/static-plots-2.png" width="672" /></p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/static-plots-2.png" width="100%" /></p>
 <pre class="r"><code>FeaturePlot(sim1, &quot;Time&quot;) + scale_color_viridis_c()</code></pre>
-<p><img src="{{< blogdown/postref >}}index_files/figure-html/static-plots-3.png" width="672" /></p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/static-plots-3.png" width="100%" /></p>
 </div>
 <div id="dynamic-plot" class="section level2">
 <h2>Dynamic plot</h2>
@@ -89,6 +89,6 @@ anim &lt;- p +
   shadow_mark(alpha = 0.5, size = 0.7)
 
 animate(anim)</code></pre>
-<p><img src="{{< blogdown/postref >}}index_files/figure-html/animated-plot-1.gif" /><!-- --></p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/animated-plot-1.gif" width="100%" /></p>
 <p>I think the colour in the static plot does the job of conveying the trajectory of the cells through time and adding animation doesn’t contribute much. But it was good to try out <code>gganimate</code> anyway and discover that the grammar makes it easy to add animation to normal ggplots. Now I’ve finally tried it out I can keep an eye out for future datasets where it might come in handy. Also <strong>first post</strong>!!! :tada: :tada:</p>
 </div>
