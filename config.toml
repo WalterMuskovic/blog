@@ -1,10 +1,10 @@
-baseurl = "/"
+baseurl = "https://www.waltermuskovic.com/"
 languageCode = "en-us"
 title = "Personal website of Walter Muskovic"
 theme = "hugo-lithium"
 googleAnalytics = ""
 disqusShortname = ""
-ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
+ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_cache$", "\\.knit\\.md$", "\\.utf8\\.md$"]
 enableEmoji = true
 
 [permalinks]
@@ -41,3 +41,8 @@ enableEmoji = true
     height = 50
     alt = "Logo"
 
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
