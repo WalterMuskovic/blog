@@ -13,7 +13,9 @@ tags:
 I keep putting off trying out the [gganimate R package](https://doi.org/10.1101/206052), but today's the day. To make it more fun, rather than use the iris dataset as they've done in the package vignette, we'll simulate some single cell RNA-seq data using the excellent [Splatter R package](https://doi.org/doi:10.18129/B9.bioc.splatter).
 
 ## Load R packages
-
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, out.width = "100%")
+```
 ```{r, load-packages, message=FALSE, warning=FALSE}
 library(splatter)   # simulate scRNA-seq data
 library(scater)     # use the logNormCounts() function from here
