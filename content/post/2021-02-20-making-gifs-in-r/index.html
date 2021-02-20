@@ -13,7 +13,7 @@ tags:
 <script src="{{< blogdown/postref >}}index_files/header-attrs/header-attrs.js"></script>
 
 
-<p>I recently tried out <a href="https://doi.org/10.1101/206052">gganimate</a> to make some dynamic plots in R. Today I want to try out two other packages; <a href="https://CRAN.R-project.org/package=gifski">gifski</a> and <a href="https://cran.r-project.org/package=magick">magick</a>, to see how easy it is to export some simple GIFs. It looks like magick can do <em>a lot</em> of image processing tasks, while gifski is pretty focused on the one task: images &gt; GIF.</p>
+<p>I recently tried out the <a href="https://doi.org/10.1101/206052">gganimate</a> R package and made some simple dynamic plots. Today I want to try out two other packages; <a href="https://CRAN.R-project.org/package=gifski">gifski</a> and <a href="https://cran.r-project.org/package=magick">magick</a>, to see how easy it is to export some simple GIFs. It looks like magick can do <em>a lot</em> of image processing tasks, while gifski is pretty focused on the one task: images &gt; GIF.</p>
 <div id="load-some-r-packages" class="section level2">
 <h2>Load some R packages</h2>
 <pre class="r"><code>library(tidyverse)
@@ -69,11 +69,11 @@ lapply(list.files(&quot;sine_wave_images/&quot;, full.names = TRUE),
 <div id="file-sizes" class="section level2">
 <h2>File sizes</h2>
 <p>Check the size of each GIF file:
-<code>utils:::format.object_size(file.size("gifski_sine_wave.gif"), units = "auto")</code>
-139.5 Kb</p>
-<p><code>utils:::format.object_size(file.size("magick_sine_wave.gif"), units = "auto")</code>
-1.6 Mb</p>
-<p>The magick gif is ~10 times larger … I’m not sure why. gifski has another function <code>save_gif</code>. Let’s try use that function to create a GIF using the same images, then check the file size.</p>
+<code>utils:::format.object_size(file.size("gifski_sine_wave.gif"), units = "auto")</code></p>
+<p>139.5 Kb</p>
+<p><code>utils:::format.object_size(file.size("magick_sine_wave.gif"), units = "auto")</code></p>
+<p>1.6 Mb</p>
+<p>The magick gif is ~10 times larger … I’m not sure why. gifski has another function <code>save_gif</code>. Let’s try use that function to create a GIF using the same images we used with magick, then check the file size.</p>
 </div>
 <div id="gifskisave_gif" class="section level2">
 <h2>gifski::save_gif()</h2>
@@ -83,7 +83,7 @@ lapply(list.files(&quot;sine_wave_images/&quot;, full.names = TRUE),
        width = 72*6, height = 72*3,
        delay = 0.1, loop = TRUE, progress = TRUE)
 
-# Remove individual images now we have our gifs
+# Individual images no longer spark joy
 unlink(&quot;sine_wave_images/&quot;, recursive = TRUE)</code></pre>
 <p><img src="images/gifski_sine_wave2.gif" /></p>
 <p>Check the size of the new GIF
