@@ -45,7 +45,7 @@ plot_sine <- function(i) {
   }
 
 save_gif(expr = pwalk(list(seq(0,10,0.1)), plot_sine),
-         gif_file = "~/Downloads/gifski_sine_wave.gif",
+         gif_file = "gifski_sine_wave.gif",
          width = 72*6, height = 72*3, res=72,
          delay = 0.1, loop = TRUE, progress = FALSE)
 ```
@@ -57,19 +57,19 @@ save_gif(expr = pwalk(list(seq(0,10,0.1)), plot_sine),
 Now we'll try the same with :tophat::rabbit2::
 ```{r magick-sine, eval=FALSE}
 # Make a directory to save png images in
-dir.create("~/Downloads/sine_wave_images")
+dir.create("sine_wave_images")
 
 # Create images
-walk(1:101, function(i) ggsave(filename = str_glue('~/Downloads/sine_wave_images/{str_pad(i,3,"left","0")}.png'),
+walk(1:101, function(i) ggsave(filename = str_glue('sine_wave_images/{str_pad(i,3,"left","0")}.png'),
                               plot = plot_sine(seq(0,10,0.1)[i]),
                               width = 6,height = 3, units = "in", dpi=72))
 
 # Read in images, stitch them together, animate and write out
-lapply(list.files("~/Downloads/sine_wave_images/", full.names = TRUE),
+lapply(list.files("sine_wave_images/", full.names = TRUE),
        image_read) %>% 
   image_join() %>%
   image_animate(fps = 10) %>%
-  image_write(path = "~/Downloads/magick_sine_wave.gif")
+  image_write(path = "magick_sine_wave.gif")
 ```
 
 ![](images/magick_sine_wave.gif)
@@ -87,19 +87,19 @@ The magick gif is ~10 times larger ... I'm not sure why. gifski has another func
 ## gifski::save_gif()
 Using the same png files:
 ```{r gifski-dynamic-sine-two, eval=FALSE}
-gifski(png_files = list.files("~/Downloads/sine_wave_images/", full.names = TRUE),
-       gif_file = "~/Downloads/gifski_sine_wave2.gif", 
+gifski(png_files = list.files("sine_wave_images/", full.names = TRUE),
+       gif_file = "gifski_sine_wave2.gif", 
        width = 72*6, height = 72*3,
        delay = 0.1, loop = TRUE, progress = TRUE)
 
 # Remove individual images now we have our gifs
-unlink("~/Downloads/sine_wave_images/", recursive = TRUE)
+unlink("sine_wave_images/", recursive = TRUE)
 ```
 
 ![](images/gifski_sine_wave2.gif)
 
 Check the size of the new GIF
-`utils:::format.object_size(file.size("~/Downloads/gifski_sine_wave2.gif"), units = "auto")`
+`utils:::format.object_size(file.size("gifski_sine_wave2.gif"), units = "auto")`
 
 139.5 Kb
 

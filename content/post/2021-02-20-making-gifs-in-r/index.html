@@ -42,7 +42,7 @@ library(magick)</code></pre>
   }
 
 save_gif(expr = pwalk(list(seq(0,10,0.1)), plot_sine),
-         gif_file = &quot;~/Downloads/gifski_sine_wave.gif&quot;,
+         gif_file = &quot;gifski_sine_wave.gif&quot;,
          width = 72*6, height = 72*3, res=72,
          delay = 0.1, loop = TRUE, progress = FALSE)</code></pre>
 <p><img src="images/gifski_sine_wave.gif" /></p>
@@ -51,19 +51,19 @@ save_gif(expr = pwalk(list(seq(0,10,0.1)), plot_sine),
 <h2>magick</h2>
 <p>Now we’ll try the same with :tophat::rabbit2::</p>
 <pre class="r"><code># Make a directory to save png images in
-dir.create(&quot;~/Downloads/sine_wave_images&quot;)
+dir.create(&quot;sine_wave_images&quot;)
 
 # Create images
-walk(1:101, function(i) ggsave(filename = str_glue(&#39;~/Downloads/sine_wave_images/{str_pad(i,3,&quot;left&quot;,&quot;0&quot;)}.png&#39;),
+walk(1:101, function(i) ggsave(filename = str_glue(&#39;sine_wave_images/{str_pad(i,3,&quot;left&quot;,&quot;0&quot;)}.png&#39;),
                               plot = plot_sine(seq(0,10,0.1)[i]),
                               width = 6,height = 3, units = &quot;in&quot;, dpi=72))
 
 # Read in images, stitch them together, animate and write out
-lapply(list.files(&quot;~/Downloads/sine_wave_images/&quot;, full.names = TRUE),
+lapply(list.files(&quot;sine_wave_images/&quot;, full.names = TRUE),
        image_read) %&gt;% 
   image_join() %&gt;%
   image_animate(fps = 10) %&gt;%
-  image_write(path = &quot;~/Downloads/magick_sine_wave.gif&quot;)</code></pre>
+  image_write(path = &quot;magick_sine_wave.gif&quot;)</code></pre>
 <p><img src="images/magick_sine_wave.gif" /></p>
 </div>
 <div id="file-sizes" class="section level2">
@@ -78,16 +78,16 @@ lapply(list.files(&quot;~/Downloads/sine_wave_images/&quot;, full.names = TRUE),
 <div id="gifskisave_gif" class="section level2">
 <h2>gifski::save_gif()</h2>
 <p>Using the same png files:</p>
-<pre class="r"><code>gifski(png_files = list.files(&quot;~/Downloads/sine_wave_images/&quot;, full.names = TRUE),
-       gif_file = &quot;~/Downloads/gifski_sine_wave2.gif&quot;, 
+<pre class="r"><code>gifski(png_files = list.files(&quot;sine_wave_images/&quot;, full.names = TRUE),
+       gif_file = &quot;gifski_sine_wave2.gif&quot;, 
        width = 72*6, height = 72*3,
        delay = 0.1, loop = TRUE, progress = TRUE)
 
 # Remove individual images now we have our gifs
-unlink(&quot;~/Downloads/sine_wave_images/&quot;, recursive = TRUE)</code></pre>
+unlink(&quot;sine_wave_images/&quot;, recursive = TRUE)</code></pre>
 <p><img src="images/gifski_sine_wave2.gif" /></p>
 <p>Check the size of the new GIF
-<code>utils:::format.object_size(file.size("~/Downloads/gifski_sine_wave2.gif"), units = "auto")</code></p>
+<code>utils:::format.object_size(file.size("gifski_sine_wave2.gif"), units = "auto")</code></p>
 <p>139.5 Kb</p>
 <p>It’s the same size :shrug:. There’s probably some magick options we could tweak to reduce the file size, but since this was just for fun I’ll leave it there for now.</p>
 </div>
