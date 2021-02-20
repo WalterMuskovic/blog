@@ -10,7 +10,7 @@ tags:
   - plots
 ---
 
-I recently tried out [gganimate](https://doi.org/10.1101/206052) to make some dynamic plots in R. Today I want to try out two other packages; [gifski](https://CRAN.R-project.org/package=gifski) and [magick](https://cran.r-project.org/package=magick), to see how easy it is to export some simple GIFs. It looks like magick can do *a lot* of image processing tasks, while gifski is pretty focused on the one task: images > GIF.
+I recently tried out the [gganimate](https://doi.org/10.1101/206052) R package and made some simple dynamic plots. Today I want to try out two other packages; [gifski](https://CRAN.R-project.org/package=gifski) and [magick](https://cran.r-project.org/package=magick), to see how easy it is to export some simple GIFs. It looks like magick can do *a lot* of image processing tasks, while gifski is pretty focused on the one task: images > GIF.
 
 ## Load some R packages
 ```{r setup, include=FALSE}
@@ -77,12 +77,14 @@ lapply(list.files("sine_wave_images/", full.names = TRUE),
 ## File sizes
 Check the size of each GIF file:
 `utils:::format.object_size(file.size("gifski_sine_wave.gif"), units = "auto")`
+
 139.5 Kb
 
 `utils:::format.object_size(file.size("magick_sine_wave.gif"), units = "auto")`
+
 1.6 Mb
 
-The magick gif is ~10 times larger ... I'm not sure why. gifski has another function `save_gif`. Let's try use that function to create a GIF using the same images, then check the file size.
+The magick gif is ~10 times larger ... I'm not sure why. gifski has another function `save_gif`. Let's try use that function to create a GIF using the same images we used with magick, then check the file size.
 
 ## gifski::save_gif()
 Using the same png files:
