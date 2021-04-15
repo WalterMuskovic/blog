@@ -1,0 +1,28 @@
+---
+title: Low velocity RNA velocity pt. 1
+author: Walter Muskovic
+date: '2020-07-02'
+slug: low-velocity-rna-velocity
+categories: []
+tags:
+  - scRNA-seq
+  - RNA velocity
+  - bioinformatics
+  - transcription
+  - gene expression
+---
+
+I've been doing some work with RNA velocity lately and I thought this was a good opportunity to write my first blog post. I'm going to go through different aspects of it pretty slowly over a few posts, hence the "low velocity" in the title.
+
+## Background reading
+
+If you want to read about the biology behind RNA velocity you can go to the [original publication](https://doi.org/10.1038/s41586-018-0414-6). If that takes you to a paywall you can read the [preprint](https://doi.org/10.1101/206052) or get a pdf from the first author's website [la manno lab > publications](http://gioelelamanno.com/). The software associated with the publication lives at [velocyto.org](http://velocyto.org/). Later on I'll be using [scvelo](https://scvelo.readthedocs.io/) which you can read about in [this preprint](https://doi.org/10.1101/820936).
+
+Some helpful background to modelling gene expression with differential equations can be found in:
+
+ - [Mathematical modeling of gene expression: a guide for the perplexed biologist](https://doi.org/10.3109/10409238.2011.556597) 
+ - [Dr Hosam Abdel Aleem's PhD thesis](https://www.escholar.manchester.ac.uk/api/datastream?publicationPid=uk-ac-man-scw:108029&datastreamId=FULL-TEXT.PDF)
+
+## The equations
+
+
